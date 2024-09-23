@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 struct Ticket {
     title: String,
     description: String,
@@ -17,11 +18,37 @@ impl Ticket {
     // as well as some `String` methods. Use the documentation of Rust's standard library
     // to find the most appropriate options -> https://doc.rust-lang.org/std/string/struct.String.html
     fn new(title: String, description: String, status: String) -> Self {
-        todo!();
-        Self {
-            title,
-            description,
-            status,
+        
+        let approved_statuses = HashMap::from([
+            ("To-Do".to_string(), 0),
+            ("In Progress".to_string(), 0),
+            ("Done".to_string(), 0)
+            ]);
+            
+            if title.is_empty() {
+                panic!("Title cannot be empty");
+            }
+            if description == "" {
+                panic!("Description cannot be empty");
+            };
+            
+            if title.len() > 50 {
+                panic!("Title cannot be longer than 50 bytes");
+            };
+            
+            if description.len() > 500 {
+                panic!("Description cannot be longer than 500 bytes");
+            };
+
+            //status check
+            if !approved_statuses.contains_key(&status) {
+                panic!("Only `To-Do`, `In Progress`, and `Done` statuses are allowed");
+            };
+            
+            Self {
+                title,
+                description,
+                status,
         }
     }
 }
